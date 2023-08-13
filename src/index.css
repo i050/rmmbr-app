@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@700&display=swap');
+
+* {
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: 'Assistant';
+  background-color:  #fffefe;
+  text-align: right;
+  
+}
+

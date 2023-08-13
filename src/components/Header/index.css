@@ -1,0 +1,10 @@
+.headerStyle {
+    position: relative;
+    font-size: 70px;
+    display: inline-block;
+    font-family: Assistant;
+    color: #000;
+    width: 772px;
+    height: 176px;
+}
+
