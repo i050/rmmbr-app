@@ -12,6 +12,7 @@
   img{
     height: 25px;
   }
+ 
   
   .up-bar-btns {
     margin-right: 20px;
@@ -20,17 +21,25 @@
     height: 40px;
     padding: 0 20px;
   }
+  .up-bar-btns:hover{
+    box-shadow: "0 2px 4px rgba(0, 0, 0, 0.2)"  }
 
   .memory-btn{
     border-color: #00b3bf;
     background-color: #00b3bf;
     color: #fff;
   }
-  
-  
+  .memory-btn:hover{
+    border-color: #0a8992;
+    background-color: #0a8992;
+  }  
   .srch-btn {
     border-radius: 50%;
     height: 40px;
     width: 40px;
   }
+
+  .srch-btn:hover{
+    box-shadow: "0 2px 4px rgba(0, 0, 0, 0.2)" ; 
+    }
   

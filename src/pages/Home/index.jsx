@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../components/Header";
 import DonorList from "../../components/DonorList";
-import Donors from "../../Data";
+import {Donors} from "../../assets/Data.js";
 import HighLightBar from "../../components/HighLightsBar";
 import { Row, Col, Container } from "react-bootstrap";
 

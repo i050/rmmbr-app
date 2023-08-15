@@ -10,7 +10,7 @@ const DonorCard = (props) => {
         <div
           className="card-style"
           style={{
-            width: "14rem",
+            width: "11rem",
             display: "inline-block",
             margin: "1rem",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -27,8 +27,8 @@ const DonorCard = (props) => {
             <Card.Img
               variant="top"
               style={{
-                height: "9rem",
-                width: "9rem",
+                height: "6rem",
+                width: "6rem",
                 borderRadius: "100%",
                 margin: "2rem",
               }}
