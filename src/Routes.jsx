@@ -1,16 +1,22 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import DonorDetails from "./pages/DonorDetails";
 import LogIn from "./pages/LogIn";
+import MemoryPageForm from "./pages/memoryPageForm";
+import MemoryWall from "./pages/MemoryWall";
+// import Home from "./pages/Home";
+
 const Home = React.lazy(() => import("./pages/Home"));
-const DonorDetails = React.lazy(() => import("./pages/DonorDetails"));
 const ProjectRoutes = () => {
   return (
     <React.Suspense fallback={<>Loading...</>}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="*" element={<h1>404</h1>} />
-        <Route path="/donordetails" element={<DonorDetails />} />
+        <Route path="/memory-wall" element={<MemoryWall />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="/donor-details" element={<DonorDetails />} />
+        <Route path="/memory-page-form" element={<MemoryPageForm />} />
+        <Route path="*" element={<h1>404 - Page not found</h1>} />
       </Routes>
     </React.Suspense>
   );

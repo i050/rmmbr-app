@@ -1,45 +1,39 @@
- .up-bar {
-    display: flex;
-    padding: 20px 20px;
-  }
-
- 
-  .logo {
-    height: 35px;
-    margin-left: auto; /* הזזת הלוגו לצד ימין */
-  }
-
-  img{
-    height: 25px;
-  }
- 
-  
-  .up-bar-btns {
-    margin-right: 20px;
-    border-radius: 25px;
-    border: 2px solid black;
-    height: 40px;
-    padding: 0 20px;
-  }
-  .up-bar-btns:hover{
-    box-shadow: "0 2px 4px rgba(0, 0, 0, 0.2)"  }
-
-  .memory-btn{
-    border-color: #00b3bf;
-    background-color: #00b3bf;
-    color: #fff;
-  }
-  .memory-btn:hover{
-    border-color: #0a8992;
-    background-color: #0a8992;
-  }  
-  .srch-btn {
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-  }
-
-  .srch-btn:hover{
-    box-shadow: "0 2px 4px rgba(0, 0, 0, 0.2)" ; 
-    }
-  
+.up-bar {
+  display: flex;
+  padding: 20px 20px;
+}
+img {
+  height: 25px;
+}
+.logo {
+  height: 35px;
+  margin-left: auto;
+}
+.srch-btn {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+.up-bar-btns {
+  border-radius: 25px;
+  border: 2px solid black;
+  height: 40px;
+  padding: 0 20px 0 20px;
+  margin-right: 30px;
+}
+.memory-btn {
+  background-color: #00b3bf;
+  color: #ffffff;
+  border-color: #00b3bf;
+}
+.btns:hover {
+  -webkit-box-shadow: 5px 2px 15px -7px rgba(0, 0, 0, 0.66);
+  box-shadow: 5px 2px 15px -7px rgba(0, 0, 0, 0.66);
+}
+.memory-btn:hover {
+  background-color: #0a8992;
+  border-color: #0a8992;
+}
+/* button {
+  padding: 10px;
+} */

@@ -1,5 +1,6 @@
-.highlightBar{
-    height: 100%;
-    background-color: #e6e6e6;
-    padding: 7px;
+.highlights-bar {
+  /* border: 2px solid black; */
+  height: 100%;
+  background-color: #e6e6e6;
+  padding: 7px;
 }

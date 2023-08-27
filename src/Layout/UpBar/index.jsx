@@ -1,23 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
-import{Link} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
+import { useSignOut, useIsAuthenticated } from "react-auth-kit";
+//import { useAuthUser } from "react-auth-kit";
 
 const UpBar = () => {
+  const [isLogged, setIsLogged] = useState(false);
+  const singOut = useSignOut();
+  const isAuthenticated = useIsAuthenticated();
+  //const auth = useAuthUser(); //i did that only for practice
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (isAuthenticated()) {
+  //     setIsLogged(true);
+  //     navigate("/");
+  //     //console.log(auth().role); //i did that only for practice => returns the role
+  //   }
+  // }, [isAuthenticated]);
+
+  useEffect(() => {
+    const checkAuthentication = () => {
+      if (isAuthenticated()) {
+        setIsLogged(true);
+        // navigate("/");
+      }
+    };
+    checkAuthentication();
+  }, [isAuthenticated]);
+
+  const handleLoginToggle = () => {
+    if (isLogged) {
+      singOut();
+      setIsLogged(false);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
-    <>
     <div className="up-bar">
-   
-      <button className="up-bar-btns memory-btn">צור דף זיכרון+</button>
-      <Link to="/login"><button className="up-bar-btns">התחבר\י</button></Link>
-      <button className="srch-btn">
-        <img src="src\assets\images\searchIcon.png" alt="search" />
+      <Link to="/memory-page-form">
+        <button className="up-bar-btns memory-btn">צור דף זיכרון+</button>
+      </Link>
+      {isLogged ? (
+        <Link to="/" onClick={handleLoginToggle}>
+          <button className="btns up-bar-btns">התנתק</button>
+        </Link>
+      ) : (
+        <Link to="/login" onClick={handleLoginToggle}>
+          <button className="btns up-bar-btns">התחבר/י</button>
+        </Link>
+      )}
+      {/* <Link to="/login" onClick={handleLoginToggle}>
+        <button className="btns up-bar-btns">
+          {isLogged ? "התנתק" : "התחבר/י"}
+        </button>
+      </Link> */}
+      <button className="btns srch-btn">
+        {/* <img src="src\assets\images\searchIcon.png" alt="search icon" /> */}
+        <img src="src\assets\images\searchIcon.png" alt="search icon" />
       </button>
-     <Link to="/" className="logo"><img
-        src="https://remember.bio/wp-content/uploads/2022/03/%D7%9C%D7%95%D7%92%D7%95-%D7%98%D7%95%D7%91.svg"
-        alt="logo"
-        className="logo"
-      /></Link> </div>
-    </>
+      <Link to="/" className="logo">
+        <img
+          src="https://remember.bio/wp-content/uploads/2022/03/%D7%9C%D7%95%D7%92%D7%95-%D7%98%D7%95%D7%91.svg"
+          alt=""
+          className="logo"
+        />
+      </Link>
+    </div>
   );
 };
 export default UpBar;

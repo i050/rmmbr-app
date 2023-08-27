@@ -1,35 +1,62 @@
-import React from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import "./index.css";
+//import { GoogleLogin } from "@react-oauth/google";
+//import jwt_decode from "jwt-decode";
 import { useSignIn } from "react-auth-kit";
+import { useGoogleLogin } from "@react-oauth/google";
 
-function LogIn() {
+import axios from "axios";
+
+const LogIn = () => {
   const signIn = useSignIn();
 
-  return (
-    <GoogleLogin
-      onSuccess={(credentialResponse) => {
-        console.log(credentialResponse.credential);
-        var decoded = jwt_decode(credentialResponse.credential);
-        console.log(decoded);
-
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const userData = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
+        console.log(userData);
         signIn({
-          expiresIn: decoded.exp,
-          token: credentialResponse.credential,
+          expiresIn: tokenResponse.expires_in,
+          // given_name: userData.data.given_name,
           tokenType: "Bearer",
+          token: tokenResponse.access_token,
           authState: {
-            email: decoded.email,
-            name: decoded.given_name,
-            imgPath: decoded.picture,
+            email: userData.data.email,
+            name: userData.data.given_name,
+            imgPath: userData.data.picture,
+            id: userData.data.sub,
             //role:role,
           },
         });
-      }}
-      onError={() => {
-        console.log("Login Failed");
-      }}
-    />
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  });
+  return (
+    <div className="login">
+      <div className="bordered-container">
+        <div className="login-title">:התחבר כדי להמשיך</div>
+        <div className="google-login-btn-container">
+          <button className="google-login-btn" type="button" onClick={login}>
+            <img
+              className="google-logo"
+              src="src\assets\images\google-logo-png-29534.png"
+              alt="google logo"
+            />
+            <span>התחבר\י באמצעות גוגל</span>
+          </button>
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default LogIn;

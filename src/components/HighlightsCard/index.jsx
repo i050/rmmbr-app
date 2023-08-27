@@ -1,9 +1,6 @@
-import "./index.css";
-
 import React, { useState } from "react";
 import styled from "styled-components";
-import {Row, Col} from "react-bootstrap"
-
+import "./index.css";
 
 const AccordionWrapper = styled.div`
   border: 1px solid #ccc;
@@ -16,27 +13,29 @@ const AccordionHeader = styled.div`
   cursor: pointer;
 `;
 
+const AccordionContent = styled.div`
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: ${({ open }) => (open ? "block" : "none")};
+`;
+
 const Date = styled.div`
   background-color: inherit;
   color: black;
 `;
 
-const AccordionContent = styled.div`
-  background-color: #f0efef;
-  padding: 10px;
-  display: ${({ open }) => (open ? "block" : "none")};
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
 `;
 const Text = styled.div`
   background-color: inherit;
   color: black;
   display: flex;
-  flex-direction: column;`;
-const Image = styled.img`
-  height: 50%;
-  width: 50%;
-  margin-left: 10px;
-  border-radius: 4px;
-  margin-bottom: 10px;`;
+  flex-direction: column;
+`;
 
 const HighlightsCard = ({ title, date, img, text }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,19 +45,22 @@ const HighlightsCard = ({ title, date, img, text }) => {
   };
 
   return (
-    <>
-      <AccordionWrapper>
-        <AccordionHeader onClick={toggleAccordion}>
-          {date ? <Date className="date">{date}</Date> : null}
-          {title}
-        </AccordionHeader>
-        <AccordionContent open={isOpen}>
-       {text ? <Text><div style={{ flex: 1 }}>{text}</div> {img ? <Image src={img} alt="תמונה" className="img" /> : null}</Text> : null}
-
-        
-        </AccordionContent>
-      </AccordionWrapper>
-    </>
+    <AccordionWrapper>
+      <AccordionHeader onClick={toggleAccordion}>
+        {date ? <Date className="date">{date}</Date> : null}
+        {title}
+      </AccordionHeader>
+      <AccordionContent open={isOpen}>
+        {text ? (
+          <Text>
+            {img ? (
+              <Image src={img} alt="this is a news image" className="img" />
+            ) : null}
+            {text}
+          </Text>
+        ) : null}
+      </AccordionContent>
+    </AccordionWrapper>
   );
 };
 

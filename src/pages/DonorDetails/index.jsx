@@ -1,16 +1,15 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import { useLocation } from "react-router-dom";
 
-function DonorDetails() {
-   const location = useLocation();
-   const donor = location.state.donor;
-    console.log(donor);
-    return (
-    <div><b>Donor Details</b>
-    <div>Donor Name: {donor.name}</div>
-    <div>Donor Status: {donor.status}</div>
-    </div>
-  )
-}
+const DonorDetails = () => {
+  const location = useLocation();
+  const donor = location.state?.donor || null;
+  return (
+    <>
+      <h1>DonorDetails</h1>
+      <h3>{donor.name}</h3>
+    </>
+  );
+};
 
-export default DonorDetails
+export default DonorDetails;

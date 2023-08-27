@@ -1,27 +1,23 @@
 import React from "react";
 import "./index.css";
-import { News } from "../../assets/Data.js";
+import HighlightCard from "../HighlightsCard";
 
-import HighlightsCard from "../../components/HighLightsCard";
-
-function HighLightBar() {
+const HighlightsBar = ({ highlightsNews }) => {
+  // console.log(highlightsNews);
   return (
-    <>
-      <div className="highlightBar">
-        {News.map((item, index) => (
-          <HighlightsCard
-            key={item.id}
-            title={item.title}
-            date={item.date}
-            text={item.text}
-            img={item.img}
-            eventKey={index.toString()}
-            
-          />
-        ))}
-      </div>
-    </>
+    <div className="highlights-bar">
+      {highlightsNews.map((item, index) => (
+        <HighlightCard
+          key={item.id}
+          img={item.img}
+          date={item.date}
+          text={item.text}
+          title={item.title}
+          eventKey={index}
+        />
+      ))}
+    </div>
   );
-}
+};
 
-export default HighLightBar;
+export default HighlightsBar;
