@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 
 const Home = () => {
   const { memoryWalls } = useMemoryWallContext();
-  const maxWords = 23; //אורך מילים
+  const maxWords = 23; //אורך מילים 
 
   return (
     <>
