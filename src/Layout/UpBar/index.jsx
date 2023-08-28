@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignOut, useIsAuthenticated } from "react-auth-kit";
+import LoginPopUp from "../../components/LoginPopUp";
+
 //import { useAuthUser } from "react-auth-kit";
 
 const UpBar = () => {
   const [isLogged, setIsLogged] = useState(false);
   const singOut = useSignOut();
   const isAuthenticated = useIsAuthenticated();
-  //const auth = useAuthUser(); //i did that only for practice
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+
+
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (isAuthenticated()) {
-  //     setIsLogged(true);
-  //     navigate("/");
-  //     //console.log(auth().role); //i did that only for practice => returns the role
-  //   }
-  // }, [isAuthenticated]);
 
   useEffect(() => {
     const checkAuthentication = () => {
@@ -38,11 +36,14 @@ const UpBar = () => {
     }
   };
 
-  return (
+  return (<>
+   
     <div className="up-bar">
       <Link to="/memory-page-form">
         <button className="up-bar-btns memory-btn">צור דף זיכרון+</button>
       </Link>
+          <button className="btns up-bar-btns">pop up</button>
+        
       {isLogged ? (
         <Link to="/" onClick={handleLoginToggle}>
           <button className="btns up-bar-btns">התנתק</button>
@@ -68,7 +69,7 @@ const UpBar = () => {
           className="logo"
         />
       </Link>
-    </div>
+    </div></>
   );
 };
 export default UpBar;

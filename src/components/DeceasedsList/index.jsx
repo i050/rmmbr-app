@@ -5,6 +5,7 @@ import Header from "../Header";
 
 const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
   console.log(ratingTypes);
+
   return (
     <div>
       <div>
@@ -39,8 +40,8 @@ const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
           margin={"0 39% 0 0 "}
         />
         {deceasedsInfo.map((deceased) =>
-          deceased.donationAmount >= ratingTypes.thirdPlace.minAmount 
-          && deceased.donationAmount < ratingTypes.secondPlace.minAmount? (
+          deceased.donationAmount >= ratingTypes.thirdPlace.minAmount &&
+          deceased.donationAmount < ratingTypes.secondPlace.minAmount ? (
             <DeceasedCard deceased={deceased} key={deceased.id} />
           ) : null
         )}

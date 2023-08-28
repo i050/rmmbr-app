@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
-import DeceasedsList from "../../components/deceasedsList";
+import DeceasedsList from "../../components/DeceasedsList";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import HighlightsBar from "../../components/HighlightsBar";

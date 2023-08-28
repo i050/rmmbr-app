@@ -5,7 +5,6 @@ import "./index.css";
 import { Link } from "react-router-dom";
 
 const DeceasedCard = ({ deceased }) => {
-  //console.log(donor);
   return (
     <Link key={deceased.id} to="/donor-details" state={{ deceased: deceased }}>
       <div
