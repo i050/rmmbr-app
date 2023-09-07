@@ -134,7 +134,6 @@ export let memoryWall = [
         img: null,
         date: "2022-03-03",
         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.",
-        title: "",
         title: "נפתח אגף יולדות שברנו שיא עם לידת 380 תינוקות ביום",
       },
       {
@@ -381,4 +380,53 @@ export let memoryWall = [
   },
 ];
 
-export let users = [{ name: "elad", password: "1234", roll: "admin" }];
+export let users = [
+  {
+    id:"1",
+    name: "elad",
+    password: "1234",
+    email: "eladcohen1978@gmail.com",
+    permissions: { memoryWalls: [], meoryPages: [] },
+    role: "admin",
+  },
+  {
+    id:"2",
+    name: "isaac",
+    password: "1234",
+    email: "a0504104451@gmail.com",
+    permissions: { memoryWalls: ["1"], meoryPages: [] },
+    role: "partialAccess",
+  },
+  {
+    id:"3",
+    name: "yuval",
+    password: "1234",
+    email: "a0504114914@gmail.com",
+    permissions: { memoryWalls: [], meoryPages: [] },
+    role: "user",
+  },
+  {
+    id:"4",
+    name: "matan",
+    password: "1234",
+    email: "ishe0508201818@gmail.com",
+    permissions: { memoryWalls: ["2"], meoryPages: [] },
+    role: "partialAccess",
+  },
+  {
+    id:"5",
+    name: "yael",
+    password: "1234",
+    email: "1234@gmail.com",
+    permissions: { memoryWalls: [], meoryPages: [] },
+    role: "admin",
+  },
+  {
+    id:"6",
+    name: "dvora",
+    password: "1234",
+    email: "5678@gmail.com",
+    permissions: { memoryWalls: [], meoryPages: [] },
+    role: "user",
+  },
+];

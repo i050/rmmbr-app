@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import Routes from "./Routes";
 import "./App.css";
 import UpBar from "./layout/UpBar";
@@ -6,6 +6,7 @@ import MemoryWallProvider from "./contexts/MemoryWallContexts";
 import LoginPopUp from "./components/LoginPopUp";
 
 function App() {
+ 
   const [showModal, setShowModal] = useState(false);
 
   const handleModalOpen = () => {

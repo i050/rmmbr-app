@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import DonorDetails from "./pages/DonorDetails";
-import LogIn from "./pages/LogIn";
+import LogInGoogle from "./components/LogInGoogle"
 import MemoryPageForm from "./pages/memoryPageForm";
 import MemoryWall from "./pages/MemoryWall";
 // import Home from "./pages/Home";
@@ -13,8 +13,8 @@ const ProjectRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/memory-wall" element={<MemoryWall />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/donor-details" element={<DonorDetails />} />
+        <Route path="/login-google" element={<LogInGoogle />} />
+        <Route path="/deceased-details" element={<DonorDetails />} />
         <Route path="/memory-page-form" element={<MemoryPageForm />} />
         <Route path="*" element={<h1>404 - Page not found</h1>} />
       </Routes>

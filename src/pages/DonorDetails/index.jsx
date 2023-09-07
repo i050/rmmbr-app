@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 
 const DonorDetails = () => {
   const location = useLocation();
-  const donor = location.state?.donor || null;
+  const deceased = location.state?.deceased || null;
   return (
     <>
       <h1>DonorDetails</h1>
-      <h3>{donor.name}</h3>
+      <h3>{deceased.name}</h3>
     </>
   );
 };

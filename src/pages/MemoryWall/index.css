@@ -1,0 +1,11 @@
+.three-dots{
+    /* padding:  0 2000px 20px 0; */
+    border: none;
+  /* 
+    height: 1vw;
+    width: 2.5vw; */
+  }
+  .three-dots-btn{
+    margin-right:  85%;
+    border: none;
+  }

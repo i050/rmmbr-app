@@ -3,7 +3,13 @@ import DeceasedCard from "../DeceasedCard";
 import Header from "../Header";
 //import { donors } from "../../assets/DB";
 
-const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
+const DeceasedsList = ({
+  deceasedsInfo,
+  ratingTypes,
+  role,
+  wallPermissions,
+  memoryWallId,
+}) => {
   console.log(ratingTypes);
 
   return (
@@ -12,11 +18,17 @@ const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
         <Header
           title={ratingTypes.firstPlace.title}
           size={"50px"}
-          margin={"0 39% 0 0 "}
+          margin={"0 39% 0 0"}
         />
         {deceasedsInfo.map((deceased) =>
           deceased.donationAmount >= ratingTypes.firstPlace.minAmount ? (
-            <DeceasedCard deceased={deceased} key={deceased.id} />
+            <DeceasedCard
+              deceased={deceased}
+              key={deceased.id}
+              role={role}
+              wallPermissions={wallPermissions}
+              memoryWallId={memoryWallId}
+            />
           ) : null
         )}
       </div>
@@ -24,12 +36,18 @@ const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
         <Header
           title={ratingTypes.secondPlace.title}
           size={"50px"}
-          margin={"0 39% 0 0 "}
+          margin={"0 39% 0 0"}
         />
         {deceasedsInfo.map((deceased) =>
           deceased.donationAmount >= ratingTypes.secondPlace.minAmount &&
           deceased.donationAmount < ratingTypes.firstPlace.minAmount ? (
-            <DeceasedCard deceased={deceased} key={deceased.id} />
+            <DeceasedCard
+              deceased={deceased}
+              key={deceased.id}
+              role={role}
+              wallPermissions={wallPermissions}
+              memoryWallId={memoryWallId}
+            />
           ) : null
         )}
       </div>
@@ -37,12 +55,18 @@ const DeceasedsList = ({ deceasedsInfo, ratingTypes }) => {
         <Header
           title={ratingTypes.thirdPlace.title}
           size={"50px"}
-          margin={"0 39% 0 0 "}
+          margin={"0 39% 0 0"}
         />
         {deceasedsInfo.map((deceased) =>
           deceased.donationAmount >= ratingTypes.thirdPlace.minAmount &&
           deceased.donationAmount < ratingTypes.secondPlace.minAmount ? (
-            <DeceasedCard deceased={deceased} key={deceased.id} />
+            <DeceasedCard
+              deceased={deceased}
+              key={deceased.id}
+              role={role}
+              wallPermissions={wallPermissions}
+              memoryWallId={memoryWallId}
+            />
           ) : null
         )}
       </div>

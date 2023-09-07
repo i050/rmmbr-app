@@ -24,6 +24,8 @@ img {
 
 /**********************************************/
 .profile-btn{
+  height: 42px;
+  width: 42px;
   border: none;
   position: relative; /* הוספת פוזיציה יחסית לכפתור */
 }
