@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import styled from "styled-components";
+import { Form, Button, Container, Row, Col } from "react-bootstrap"; // Import React Bootstrap components
+import { useState, useEffect } from "react";
+//import { memoryWall } from "../../assets/DB"; //for example
+import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
+// import "./index.css";
 
-const HighlightFormWrapper = styled.div`
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  padding: 20px;
-`;
-
-const HighlightForm = ({ onAddHighlight }) => {
+const HighlightForm = ({ onAddHighlight, highlightsNews }) => {
+  console.log("form highlightsNews", highlightsNews);
   const schema = Yup.object().shape({
     date: Yup.date().required("שדה תאריך הוא שדה חובה"),
     title: Yup.string().required("שדה כותרת הוא שדה חובה"),
@@ -18,7 +17,12 @@ const HighlightForm = ({ onAddHighlight }) => {
     image: Yup.string().required("שדה תמונה הוא שדה חובה"),
   });
 
-  const { handleSubmit, control, formState, reset } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       date: "",
@@ -28,13 +32,17 @@ const HighlightForm = ({ onAddHighlight }) => {
     },
   });
 
-  const { errors } = formState;
+  // const memoryWallLocalStorage = JSON.parse(
+  //   localStorage.getItem("memoryWallData")
+  // );
 
-  const [highlightTempId, setHighlightTempId] = useState(10);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [highlightTempId, setHighlightTempId] = useState(
+    highlightsNews.length + 1
+  );
 
   const handleFormSubmit = (data) => {
-    setHighlightTempId(highlightTempId + 1);
+    console.log(data);
+    setHighlightTempId(highlightTempId + 1); //for example
     const newHighlight = {
       id: highlightTempId.toString(),
       title: data.title,
@@ -42,242 +50,117 @@ const HighlightForm = ({ onAddHighlight }) => {
       image: data.image,
       date: new Date(data.date).toLocaleDateString(),
     };
-
     onAddHighlight(newHighlight);
-
     reset();
-    setIsFormVisible(false);
   };
 
   return (
-    <HighlightFormWrapper>
-      <h2>הוספת עדכון חדש</h2>
-      <form
-        onSubmit={handleSubmit(handleFormSubmit)}
-        className={`form ${isFormVisible ? "form-visible" : "form-hidden"}`}
-      >
-        <div className="form-group">
-          <label>תאריך:</label>
-          <Controller
-            name="date"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="date"
-                {...field}
-                className={`form-control ${errors.date ? "is-invalid" : ""}`}
-              />
-            )}
-          />
-          {errors.date && (
-            <div className="invalid-feedback">{errors.date.message}</div>
-          )}
-        </div>
-        <div className="form-group">
-          <label>כותרת:</label>
-          <Controller
-            name="title"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="text"
-                {...field}
-                className={`form-control ${errors.title ? "is-invalid" : ""}`}
-              />
-            )}
-          />
-          {errors.title && (
-            <div className="invalid-feedback">{errors.title.message}</div>
-          )}
-        </div>
-        <div className="form-group">
-          <label>טקסט:</label>
-          <Controller
-            name="text"
-            control={control}
-            render={({ field }) => (
-              <textarea
-                {...field}
-                className={`form-control ${errors.text ? "is-invalid" : ""}`}
-              />
-            )}
-          />
-          {errors.text && (
-            <div className="invalid-feedback">{errors.text.message}</div>
-          )}
-        </div>
-        <div className="form-group">
-          <label>תמונה:</label>
-          <Controller
-            name="image"
-            control={control}
-            render={({ field }) => (
-              <div>
-                <input
-                  type="text"
-                  {...field}
-                  className={`form-control ${errors.image ? "is-invalid" : ""}`}
-                />
-                {errors.image && (
-                  <div className="invalid-feedback">{errors.image.message}</div>
+    <Container className="bg-and-font-color container" style={{ width: "97%" }}>
+      <Row className="bg-and-font-color">
+        <Col className="bg-and-font-color">
+          <Form
+            onSubmit={handleSubmit(handleFormSubmit)}
+            className="bg-and-font-color"
+          >
+            <Form.Group controlId="date" className="bg-and-font-color">
+              <Form.Label className="bg-and-font-color">:תאריך</Form.Label>
+              <Controller
+                name="date"
+                control={control}
+                render={({ field }) => (
+                  <Form.Control
+                    type="date"
+                    {...field}
+                    isInvalid={!!errors.date}
+                  />
                 )}
-              </div>
-            )}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          הוסף
-        </button>
-      </form>
-    </HighlightFormWrapper>
+              />
+              {errors.date && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.date.message}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+
+            <Form.Group controlId="title" className="bg-and-font-color">
+              <Form.Label className="bg-and-font-color">:כותרת</Form.Label>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <Form.Control
+                    type="text"
+                    {...field}
+                    isInvalid={!!errors.title}
+                  />
+                )}
+              />
+              {errors.title && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.title.message}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+
+            <Form.Group controlId="text" className="bg-and-font-color">
+              <Form.Label className="bg-and-font-color">:טקסט</Form.Label>
+              <Controller
+                name="text"
+                control={control}
+                render={({ field }) => (
+                  <Form.Control
+                    as="textarea"
+                    {...field}
+                    isInvalid={!!errors.text}
+                  />
+                )}
+              />
+              {errors.text && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.text.message}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+
+            <Form.Group controlId="image" className="bg-and-font-color">
+              <Form.Label className="bg-and-font-color">:תמונה</Form.Label>
+              <Controller
+                name="image"
+                control={control}
+                render={({ field }) => (
+                  <div>
+                    <Form.Control
+                      type="text"
+                      {...field}
+                      isInvalid={!!errors.image}
+                    />
+                    {errors.image && (
+                      <Form.Control.Feedback type="invalid">
+                        {errors.image.message}
+                      </Form.Control.Feedback>
+                    )}
+                  </div>
+                )}
+              />
+            </Form.Group>
+
+            <Button
+              className="highlight-button"
+              variant="primary"
+              type="submit"
+              style={{
+                marginTop: "3%",
+                backgroundColor: "#00b3bf",
+                border: "none",
+              }}
+            >
+              Submit
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default HighlightForm;
-
-
-
-
-
-// import React ,{useState} from "react";
-// import { useForm, Controller } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as Yup from "yup";
-
-// const HighlightForm = ({highlightsNews}) => {
-//   const schema = Yup.object().shape({
-//     date: Yup.date().test
-//     (
-
-//       "date",
-//       "date is required",
-//       function (value) {
-//         return value !== "kk";
-//       }
-
-//     )
-
-//     .required("שדה תאריך הוא שדה חובה"),
-
-//     title: Yup.string().required("שדה כותרת הוא שדה חובה"),
-//     text: Yup.string().required("שדה טקסט הוא שדה חובה"),
-//     image: Yup.string().required("שדה תמונה הוא שדה חובה"),
-//   });
-
-//   const { handleSubmit, control, formState, reset } = useForm({
-//     resolver: yupResolver(schema),
-//     defaultValues: {
-//       date:
-//       {
-
-//       }
-
-//       ,
-//       title: "",
-//       text: "",
-//       image: "",
-//     },
-//   });
-
-//   const { errors } = formState;
-
-// const [highlightTempId, setHighlightTempId] = useState(10);
-
-//   const handleFormSubmit = (data) => {
-//     console.log(highlightsNews);
-
-//     console.log(data);
-//     setHighlightTempId(highlightTempId + 1);
-//     highlightsNews.push({
-//       id: highlightTempId.toString(),
-//       title: data.title,
-//       text: data.text,
-//       image: data.image,
-//       date: new Date(data.date).toLocaleDateString(),
-
-//     }
-//     );
-//     console.log(highlightsNews);
-
-//     reset(); // Reset the form after submission
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit(handleFormSubmit)}>
-//       <div className="form-group">
-//         <label>תאריך:</label>
-//         <Controller
-//           name="date"
-//           control={control}
-//           render={({ field }) => (
-//             <input
-//               type="date"
-//               {...field}
-//               className={`form-control ${errors.date ? "is-invalid" : ""}`}
-//             />
-//           )}
-//         />
-//         {errors.date && (
-//           <div className="invalid-feedback">{errors.date.message}</div>
-//         )}
-//       </div>
-//       <div className="form-group">
-//         <label>כותרת:</label>
-//         <Controller
-//           name="title"
-//           control={control}
-//           render={({ field }) => (
-//             <input
-//               type="text"
-//               {...field}
-//               className={`form-control ${errors.title ? "is-invalid" : ""}`}
-//             />
-//           )}
-//         />
-//         {errors.title && (
-//           <div className="invalid-feedback">{errors.title.message}</div>
-//         )}
-//       </div>
-//       <div className="form-group">
-//         <label>טקסט:</label>
-//         <Controller
-//           name="text"
-//           control={control}
-//           render={({ field }) => (
-//             <textarea
-//               {...field}
-//               className={`form-control ${errors.text ? "is-invalid" : ""}`}
-//             />
-//           )}
-//         />
-//         {errors.text && (
-//           <div className="invalid-feedback">{errors.text.message}</div>
-//         )}
-//       </div>
-//       <div className="form-group">
-//         <label>תמונה:</label>
-//         <Controller
-//           name="image"
-//           control={control}
-//           render={({ field }) => (
-//             <div>
-//               <input
-//                 type="text"
-//                 {...field}
-//                 className={`form-control ${errors.image ? "is-invalid" : ""}`}
-//               />
-//               {errors.image && (
-//                 <div className="invalid-feedback">{errors.image.message}</div>
-//               )}
-//             </div>
-//           )}
-//         />
-//       </div>
-//       <button type="submit" className="btn btn-primary">
-//         Submit
-//       </button>
-//     </form>
-//   );
-// };
-
-// export default HighlightForm;
