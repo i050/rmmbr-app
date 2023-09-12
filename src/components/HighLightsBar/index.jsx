@@ -35,7 +35,7 @@ const HighlightsBar = ({
       {isFormVisible && (
         <HighlightForm
           highlightsNews={highlightsNews}
-          // memoryWallId={memoryWallId}
+           memoryWallId={memoryWallId}
           // highLightUpdate={highLightUpdate}
           onAddHighlight={onAddHighlight}
         />

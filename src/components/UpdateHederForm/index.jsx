@@ -8,7 +8,7 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("שדה כותרת הוא שדה חובה"),
 });
 
-function UpdateHeaderForm() {
+function UpdateHeaderForm({changeTitle}) {
   const {
     handleSubmit,
     control,
@@ -18,7 +18,8 @@ function UpdateHeaderForm() {
   });
 
   const onSubmit = (data) => {
-    alert(`Submitted title: ${data.title}`);
+    console.log(data);
+     changeTitle(data.title)
   };
 
   return (

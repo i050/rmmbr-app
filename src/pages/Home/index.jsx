@@ -1,13 +1,14 @@
-import React from "react";
+// import React from "react";
 import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
 const Home = () => {
+  //here is going to be a request to the server to get all the memory walls
   const { memoryWalls } = useMemoryWallContext();
-  console.log(memoryWalls);
+  console.log(memoryWalls);console.log(memoryWalls);
   const maxWords = 23; // מספר המילים המרבי שברצונך להציג
-
+console.log(memoryWalls);
   return (
     <>
       {memoryWalls.map((memoryWall) => (

@@ -12,16 +12,19 @@ import { useLocation } from "react-router-dom";
 import { useAuthUser } from "react-auth-kit";
 import { useIsAuthenticated } from "react-auth-kit";
 import ThreeDotsAdminDropdown from "../../components/ThreeDotsAdminDropdown";
-import UpdateHederForm from "../../components/UpdateHederForm"; 
 import "./index.css";
+import UpdateHeaderForm from "../../components/UpdateHederForm";
+
 const MemoryWall = () => {
   const isAuthenticated = useIsAuthenticated();
   const authUser = useAuthUser();
   const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
+  
 
   const location = useLocation();
   const memoryWall = location.state?.memoryWall || null;
-  //console.log(memoryWall.highlightNews);
+  console.log([...memoryWall.highlightsNews]);
+  console.log(memoryWall.title);
   const [role, setRole] = useState("noRole");
   const [wallPermissions, setWallPermissions] = useState("noPermissions");
   const [highlightsNews, setHighlightsNews] = useState(
@@ -34,12 +37,11 @@ const MemoryWall = () => {
     setHighlightsNews(updateHighlight);
     //console.log(highlightsNews);
     memoryWalls[memoryWall.id - 1].highlightsNews = updateHighlight;
-    setMemoryWalls(memoryWalls); //because there is no backend
-    console.log(memoryWalls);
-    localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
+    (memoryWalls); //because there is no backend
+    //localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
   };
-  //console.log(memoryWalls); //test
-  //console.log(highlightsNews); //test
+  console.log("memoryWall ", memoryWalls); //test
+  console.log("highlightsNews ",highlightsNews); //test
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -50,17 +52,31 @@ const MemoryWall = () => {
     }
   });
 
+  // console.log(isOpenTitleInput);
+  const updateTitleInput = (bool) => {
+    setIsOpenTitleInput(bool);
+  };
+
+  const [title, setTitle] = useState(memoryWall.title);
+  const changeTitle = (newTitle) => {
+    memoryWall.title = newTitle; //changes the title strate in this component
+    setTitle(newTitle); //changes the title strate in this component
+    memoryWalls[memoryWall.id - 1].title = newTitle; //changes the title in memoryWalls context
+    setMemoryWalls([...memoryWalls]); //because there is no backend
+    console.log(memoryWalls);
+    //changing the DB in the localStorage
+    localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
+    setIsOpenTitleInput(false);
+  };
+  // console.log(memoryWalls); //test
+  // console.log(memoryWall.title);
+
   //console.log(role);
   //console.log(wallPermissions);
 
   //console.log(memoryWall.highlightsNews);
   //console.log(memoryWall);
   //&& wallPermissions.find(id=>id==))
-  console.log(isOpenTitleInput);
-  const updateTitleInput = (bool) => {
-    setIsOpenTitleInput(bool);
-  };
-
   return (
     <>
       <Container fluid>
@@ -77,20 +93,17 @@ const MemoryWall = () => {
               (role === "partialAccess" &&
                 wallPermissions.find((id) => id == memoryWall.id)) ? (
                 <span>
-                 
-                  <ThreeDotsAdminDropdown updateTitleInput={updateTitleInput} />
+                  <ThreeDotsAdminDropdown
+                    updateTitleInput={updateTitleInput}
+                    returnToDotsIcon={isOpenTitleInput}
+                  />
                 </span>
               ) : null}
-
               {isOpenTitleInput ? (
-            <UpdateHederForm/>
+                <UpdateHeaderForm changeTitle={changeTitle} />
               ) : (
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <Header
-                    title={memoryWall.title}
-                    size={"70px"}
-                    margin={"0 20% 0 0"}
-                  />
+                  <Header title={title} size={"70px"} margin={"0 20% 0 0"} />
                 </div>
               )}
             </div>

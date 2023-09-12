@@ -1,30 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import "./index.css"; // Import your custom CSS
+import { set } from "react-hook-form";
 
-const ThreeDotsAdminDropdown = ({ updateTitleInput }) => {
+
+const ThreeDotsAdminDropdown = ({ updateTitleInput,returnToDotsIcon }) => {
   const [toggleInput, setToggleInput] = useState(true);
+  
+  useEffect(() => {
+    setToggleInput(!returnToDotsIcon);
+    // console.log("toggleInput",toggleInput);
+  }
+);
+
+
   const handleEditTitleClick = (bool) => {
-   
     updateTitleInput(bool);
     setToggleInput(!toggleInput);
   };
 
   return (
     <Dropdown>
-      {toggleInput? <Dropdown.Toggle
-        variant="light"
-        id="dropdown-menu"
-        className="custom-dropdown-toggle"
-      ><img
-      className="three-dots"
-      src="src\assets\images\three-dots.png"
-      alt="Three Dots"
-    /></Dropdown.Toggle>:<span style={{cursor: "pointer"}} onClick={() => handleEditTitleClick(toggleInput)}>✖</span>}
-       
-      
+      {toggleInput ?  (
+        <Dropdown.Toggle
+          variant="light"
+          id="dropdown-menu"
+          className="custom-dropdown-toggle"
+        >
+          <img
+            className="three-dots"
+            src="src\assets\images\three-dots.png"
+            alt="Three Dots"
+          />
+        </Dropdown.Toggle>
+      ) : (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleEditTitleClick(toggleInput)}
+        >
+          ✖
+        </span>
+      )}
+
       <Dropdown.Menu>
-        <Dropdown.Item key={1} onClick={() => handleEditTitleClick(toggleInput)}>
+        <Dropdown.Item
+          key={1}
+          onClick={() => handleEditTitleClick(toggleInput)}
+        >
           {"עריכת כותרת"}
         </Dropdown.Item>
         <Dropdown.Item key={2}>{"עריכת תמונות"}</Dropdown.Item>

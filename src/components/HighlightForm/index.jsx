@@ -4,11 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { Form, Button, Container, Row, Col } from "react-bootstrap"; // Import React Bootstrap components
 import { useState, useEffect } from "react";
+import {postDataToDatabase} from "../../services/apiFetcher"
 //import { memoryWall } from "../../assets/DB"; //for example
-import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 // import "./index.css";
 
-const HighlightForm = ({ onAddHighlight, highlightsNews }) => {
+const HighlightForm = ({ onAddHighlight, highlightsNews,memoryWallId }) => {
   console.log("form highlightsNews", highlightsNews);
   const schema = Yup.object().shape({
     date: Yup.date().required("שדה תאריך הוא שדה חובה"),
@@ -39,8 +39,14 @@ const HighlightForm = ({ onAddHighlight, highlightsNews }) => {
   const [highlightTempId, setHighlightTempId] = useState(
     highlightsNews.length + 1
   );
-
+  
+  // const postData = {
+  //   // המידע שברצונך לשלוח בבקשה
+  // };
+  
   const handleFormSubmit = (data) => {
+    const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/highlightsNews`;
+
     console.log(data);
     setHighlightTempId(highlightTempId + 1); //for example
     const newHighlight = {
@@ -50,6 +56,13 @@ const HighlightForm = ({ onAddHighlight, highlightsNews }) => {
       image: data.image,
       date: new Date(data.date).toLocaleDateString(),
     };
+    postDataToDatabase(endpoint, newHighlight)
+  .then((responseData) => {
+    console.log("נתונים נשלחו בהצלחה:", responseData);
+  })
+  .catch((error) => {
+    console.error("שגיאה בשליחת הנתונים:", error);
+  });
     onAddHighlight(newHighlight);
     reset();
   };
