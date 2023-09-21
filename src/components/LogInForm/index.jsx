@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useSignIn } from "react-auth-kit";
 import { users } from "../../assets/DB"; //temporary - DB
+import { useUsersContext } from "../../contexts/UsersContext";
+
 
 const schema = yup.object().shape({
   email: yup.string().required("אימייל חובה").email("פורמט האימייל שגוי"),
@@ -15,6 +17,9 @@ const schema = yup.object().shape({
 });
 
 const LogInForm = () => {
+  const {users, setUsers} = useUsersContext();
+  console.log(users);
+  
   const signIn = useSignIn();
   const {
     register,

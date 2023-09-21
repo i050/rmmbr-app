@@ -11,37 +11,36 @@ import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 import { useLocation } from "react-router-dom";
 import { useAuthUser } from "react-auth-kit";
 import { useIsAuthenticated } from "react-auth-kit";
-import ThreeDotsAdminDropdown from "../../components/ThreeDotsAdminDropdown";
 import "./index.css";
-import UpdateHeaderForm from "../../components/UpdateHederForm";
-
+import ThreeDotsAdminDropdown from "../../components/ThreeDotsAdminDropdown"
+import UpdateHeaderForm from "../../components/UpdateHederForm"
 const MemoryWall = () => {
   const isAuthenticated = useIsAuthenticated();
   const authUser = useAuthUser();
   const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
-  
-
   const location = useLocation();
-  const memoryWall = location.state?.memoryWall || null;
-  console.log([...memoryWall.highlightsNews]);
-  console.log(memoryWall.title);
+  const index = location.state.index;
+  const memoryWall= memoryWalls[index];
+
+console.log(index);
   const [role, setRole] = useState("noRole");
   const [wallPermissions, setWallPermissions] = useState("noPermissions");
   const [highlightsNews, setHighlightsNews] = useState(
     memoryWall.highlightsNews
   );
+  console.log([...memoryWall.highlightsNews]);
   const [isOpenTitleInput, setIsOpenTitleInput] = useState(false);
 
   const addHighlightToMemoryWall = (newHighlight) => {
     const updateHighlight = [...highlightsNews, newHighlight];
     setHighlightsNews(updateHighlight);
     //console.log(highlightsNews);
-    memoryWalls[memoryWall.id - 1].highlightsNews = updateHighlight;
-    (memoryWalls); //because there is no backend
+    memoryWalls[index].highlightsNews = updateHighlight;
+    setMemoryWalls(memoryWalls); //because there is no backend
     //localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
   };
-  console.log("memoryWall ", memoryWalls); //test
-  console.log("highlightsNews ",highlightsNews); //test
+  console.log(memoryWalls); //test
+  console.log(highlightsNews); //test
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -52,7 +51,7 @@ const MemoryWall = () => {
     }
   });
 
-  // console.log(isOpenTitleInput);
+  console.log(isOpenTitleInput);
   const updateTitleInput = (bool) => {
     setIsOpenTitleInput(bool);
   };
@@ -61,11 +60,11 @@ const MemoryWall = () => {
   const changeTitle = (newTitle) => {
     memoryWall.title = newTitle; //changes the title strate in this component
     setTitle(newTitle); //changes the title strate in this component
-    memoryWalls[memoryWall.id - 1].title = newTitle; //changes the title in memoryWalls context
+    memoryWalls[index].title = newTitle; //changes the title in memoryWalls context
     setMemoryWalls([...memoryWalls]); //because there is no backend
     console.log(memoryWalls);
     //changing the DB in the localStorage
-    localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
+    //localStorage.setItem("memoryWallData", JSON.stringify(memoryWalls)); //because there is no backend
     setIsOpenTitleInput(false);
   };
   // console.log(memoryWalls); //test
@@ -100,10 +99,10 @@ const MemoryWall = () => {
                 </span>
               ) : null}
               {isOpenTitleInput ? (
-                <UpdateHeaderForm changeTitle={changeTitle} />
+                <UpdateHeaderForm changeTitle={changeTitle} memoryWallId={memoryWall.id} index={index}/>
               ) : (
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <Header title={title} size={"70px"} margin={"0 20% 0 0"} />
+                  <Header title={memoryWalls[index].title}  size={"70px"} margin={"0 20% 0 0"} />
                 </div>
               )}
             </div>
@@ -120,10 +119,12 @@ const MemoryWall = () => {
           </Col>
           <Col xs={12} md={4} lg={4} xl={3}>
             <HighlightsBar
-              highlightsNews={highlightsNews}
+              // highlightsNews={highlightsNews}
               role={role}
               wallPermissions={wallPermissions}
               memoryWallId={memoryWall.id}
+              index={index}
+              
               onAddHighlight={addHighlightToMemoryWall}
             />
           </Col>

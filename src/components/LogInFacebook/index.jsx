@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useSignIn } from "react-auth-kit";
-import {users} from "../../assets/DB"
+// import {users} from "../../assets/DB"
 import "./index.css";
+import { useUsersContext } from "../../contexts/UsersContext";
 
 const LogInFacebook = () => {
+  const { users } = useUsersContext();
+  console.log(users);
+
   useEffect(() => {
     window.FB.init({
       appId: "273907372093138",

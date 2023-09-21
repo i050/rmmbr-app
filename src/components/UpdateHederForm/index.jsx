@@ -3,12 +3,16 @@ import { useForm, Controller } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import {updateDataInDatabase} from "../../services/apiFetcher";
+import  { useMemoryWallContext } from "../../contexts/MemoryWallContexts"
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("שדה כותרת הוא שדה חובה"),
 });
 
-function UpdateHeaderForm({changeTitle}) {
+function UpdateHeaderForm({changeTitle, memoryWallId, index}) {
+  const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
+
   const {
     handleSubmit,
     control,
@@ -17,10 +21,26 @@ function UpdateHeaderForm({changeTitle}) {
     resolver: yupResolver(validationSchema),
   });
 
+
   const onSubmit = (data) => {
-    console.log(data);
-     changeTitle(data.title)
+    const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/title`; // Replace with your actual endpoint
+    const dataToUpdate = {
+      title: data.title,
+    };
+    (async () => {
+      try {
+        const responseData = await updateDataInDatabase(endpoint, dataToUpdate);
+        console.log("Data updated successfully. Response:", responseData);
+        console.log(memoryWallId);
+        memoryWalls[index].title = data.title;
+        setMemoryWalls(memoryWalls);
+        changeTitle(data.title);
+      } catch (error) {
+        console.error(error.message);
+      }
+    })();
   };
+  
 
   return (
     <div className="container">

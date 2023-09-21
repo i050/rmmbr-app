@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import HighlightCard from "../HighlightCard";
 import HighlightForm from "../HighlightForm";
+import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 
 const HighlightsBar = ({
-  highlightsNews,
+  // highlightsNews,
   role,
   wallPermissions,
   memoryWallId,
+  index,
   onAddHighlight,
 }) => {
+  const { memoryWalls } = useMemoryWallContext();
+  const highlightsNews = memoryWalls[index].highlightsNews;
+  console.log(highlightsNews);
   const [isFormVisible, setIsFormVisible] = useState(false);
   console.log("bar highlightsNews", highlightsNews);
   // useEffect(() => {}, [highlightsNewsDB]);
@@ -34,23 +39,26 @@ const HighlightsBar = ({
       {/* Conditionally render the form based on isFormVisible state */}
       {isFormVisible && (
         <HighlightForm
-          highlightsNews={highlightsNews}
-           memoryWallId={memoryWallId}
+          index={index}
+          memoryWallId={memoryWallId}
           // highLightUpdate={highLightUpdate}
           onAddHighlight={onAddHighlight}
         />
       )}
 
-      {highlightsNews.map((item, index) => (
-        <HighlightCard
-          key={item.id}
-          img={item.img}
-          date={item.date}
-          text={item.text}
-          title={item.title}
-          eventKey={index}
-        />
-      ))}
+      {highlightsNews
+        .slice()
+        .reverse()
+        .map((item, index) => (
+          <HighlightCard
+            key={item.id}
+            img={item.img}
+            date={item.date}
+            text={item.text}
+            title={item.title}
+            eventKey={index}
+          />
+        ))}
     </div>
   );
 };

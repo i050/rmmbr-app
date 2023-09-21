@@ -4,11 +4,15 @@ import "./index.css";
 //import jwt_decode from "jwt-decode";
 import { useSignIn } from "react-auth-kit";
 import { useGoogleLogin } from "@react-oauth/google";
-import {users} from "../../assets/DB";
+// import {users} from "../../assets/DB";
+import { useUsersContext } from "../../contexts/UsersContext";
+
 
 import axios from "axios";
 
 const LogInGoogle = () => {
+  const { users } = useUsersContext();
+console.log(users);
   const signIn = useSignIn();
 
   const login = useGoogleLogin({

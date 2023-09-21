@@ -4,12 +4,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { Form, Button, Container, Row, Col } from "react-bootstrap"; // Import React Bootstrap components
 import { useState, useEffect } from "react";
-import {postDataToDatabase} from "../../services/apiFetcher"
+import { postDataToDatabase } from "../../services/apiFetcher";
+import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 //import { memoryWall } from "../../assets/DB"; //for example
 // import "./index.css";
 
-const HighlightForm = ({ onAddHighlight, highlightsNews,memoryWallId }) => {
-  console.log("form highlightsNews", highlightsNews);
+const HighlightForm = ({ onAddHighlight, memoryWallId, index }) => {
+  const { memoryWalls } = useMemoryWallContext();
+  const highlightsNews = memoryWalls[index].highlightsNews;
+
+  //console.log("form highlightsNews", highlightsNews);
   const schema = Yup.object().shape({
     date: Yup.date().required("שדה תאריך הוא שדה חובה"),
     title: Yup.string().required("שדה כותרת הוא שדה חובה"),
@@ -39,11 +43,11 @@ const HighlightForm = ({ onAddHighlight, highlightsNews,memoryWallId }) => {
   const [highlightTempId, setHighlightTempId] = useState(
     highlightsNews.length + 1
   );
-  
+
   // const postData = {
   //   // המידע שברצונך לשלוח בבקשה
   // };
-  
+
   const handleFormSubmit = (data) => {
     const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/highlightsNews`;
 
@@ -57,12 +61,12 @@ const HighlightForm = ({ onAddHighlight, highlightsNews,memoryWallId }) => {
       date: new Date(data.date).toLocaleDateString(),
     };
     postDataToDatabase(endpoint, newHighlight)
-  .then((responseData) => {
-    console.log("נתונים נשלחו בהצלחה:", responseData);
-  })
-  .catch((error) => {
-    console.error("שגיאה בשליחת הנתונים:", error);
-  });
+      .then((responseData) => {
+        console.log("נתונים נשלחו בהצלחה:", responseData);
+      })
+      .catch((error) => {
+        console.error("שגיאה בשליחת הנתונים:", error);
+      });
     onAddHighlight(newHighlight);
     reset();
   };
