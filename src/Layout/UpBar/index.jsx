@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSignOut, useIsAuthenticated } from "react-auth-kit";
 
 import { useAuthUser } from "react-auth-kit";
@@ -16,20 +16,10 @@ const UpBar = (props) => {
   useEffect(() => {
     if (isAuthenticated()) {
       setIsLogged(true);
-      console.log(authUser().imgPath);
       if (authUser().imgPath != null && authUser().imgPath != undefined) {
         setProfileImagePath(authUser().imgPath);
-      }       
-      // if(localStorage.getItem('profilePicture'))
-      //   setProfileImagePath(localStorage.getItem('profilePicture'));
+      }
     }
-    
-    // const authStateString = localStorage.getItem('_auth_state');
-    // const authState = JSON.parse(authStateString);
-
-    // if (authState) {
-    //   setProfileImagePath(authState.imgPath);
-    // }
   });
 
   const handleLoginToggle = () => {
@@ -38,12 +28,12 @@ const UpBar = (props) => {
       setIsLogged(false);
       localStorage.clear();
       if (authUser().connectionType == "facebook") {
-        FB.logout(function (response) {
-          // Handle the response from the logout attempt.
+         FB.logout(
+          function (response) {
           if (response.status === "unknown") {
-            // User was successfully logged out.
           }
-        });
+       }
+       );
       }
     } else {
       props.openLoginModal();
@@ -74,7 +64,6 @@ const UpBar = (props) => {
         )}
 
         <button className="btns srch-btn">
-          {/* <img src="src\assets\images\searchIcon.png" alt="search icon" /> */}
           <img src="src\assets\images\searchIcon.png" alt="search icon" />
         </button>
         <Link to="/" className="logo">

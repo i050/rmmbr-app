@@ -9,3 +9,14 @@
     margin-right:  85%;
     border: none;
   }
+  .about{
+    margin-top: 10px;
+    border-bottom: 2px solid #ecebeb;
+    border-top: 2px solid #ecebeb;
+
+  }
+  .bin-img{
+    margin-top: 25%;
+    margin-bottom: 25%;
+    border: none;
+  }

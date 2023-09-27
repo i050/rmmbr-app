@@ -3,17 +3,13 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { Form, Button, Container, Row, Col } from "react-bootstrap"; // Import React Bootstrap components
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { postDataToDatabase } from "../../services/apiFetcher";
 import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
-//import { memoryWall } from "../../assets/DB"; //for example
-// import "./index.css";
-
 const HighlightForm = ({ onAddHighlight, memoryWallId, index }) => {
   const { memoryWalls } = useMemoryWallContext();
   const highlightsNews = memoryWalls[index].highlightsNews;
 
-  //console.log("form highlightsNews", highlightsNews);
   const schema = Yup.object().shape({
     date: Yup.date().required("שדה תאריך הוא שדה חובה"),
     title: Yup.string().required("שדה כותרת הוא שדה חובה"),
@@ -36,23 +32,16 @@ const HighlightForm = ({ onAddHighlight, memoryWallId, index }) => {
     },
   });
 
-  // const memoryWallLocalStorage = JSON.parse(
-  //   localStorage.getItem("memoryWallData")
-  // );
 
   const [highlightTempId, setHighlightTempId] = useState(
     highlightsNews.length + 1
   );
 
-  // const postData = {
-  //   // המידע שברצונך לשלוח בבקשה
-  // };
 
   const handleFormSubmit = (data) => {
     const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/highlightsNews`;
 
-    console.log(data);
-    setHighlightTempId(highlightTempId + 1); //for example
+    setHighlightTempId(highlightTempId + 1); 
     const newHighlight = {
       id: highlightTempId.toString(),
       title: data.title,
@@ -88,6 +77,7 @@ const HighlightForm = ({ onAddHighlight, memoryWallId, index }) => {
                   <Form.Control
                     type="date"
                     {...field}
+                    autoFocus 
                     isInvalid={!!errors.date}
                   />
                 )}

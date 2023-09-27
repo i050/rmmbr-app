@@ -10,7 +10,6 @@ const DeceasedsList = ({
   wallPermissions,
   memoryWallId,
 }) => {
-  console.log(ratingTypes);
 
   return (
     <div>

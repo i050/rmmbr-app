@@ -5,7 +5,6 @@ import HighlightForm from "../HighlightForm";
 import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 
 const HighlightsBar = ({
-  // highlightsNews,
   role,
   wallPermissions,
   memoryWallId,
@@ -14,10 +13,7 @@ const HighlightsBar = ({
 }) => {
   const { memoryWalls } = useMemoryWallContext();
   const highlightsNews = memoryWalls[index].highlightsNews;
-  console.log(highlightsNews);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  console.log("bar highlightsNews", highlightsNews);
-  // useEffect(() => {}, [highlightsNewsDB]);
 
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
@@ -41,7 +37,6 @@ const HighlightsBar = ({
         <HighlightForm
           index={index}
           memoryWallId={memoryWallId}
-          // highLightUpdate={highLightUpdate}
           onAddHighlight={onAddHighlight}
         />
       )}

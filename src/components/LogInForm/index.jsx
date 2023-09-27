@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useSignIn } from "react-auth-kit";
-import { users } from "../../assets/DB"; //temporary - DB
 import { useUsersContext } from "../../contexts/UsersContext";
 
 
@@ -18,7 +17,6 @@ const schema = yup.object().shape({
 
 const LogInForm = () => {
   const {users, setUsers} = useUsersContext();
-  console.log(users);
   
   const signIn = useSignIn();
   const {
@@ -30,11 +28,9 @@ const LogInForm = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     const dbUserData = users.find(
       (user) => user.email === data.email && user.password === data.password
     );
-    console.log(dbUserData);
     signIn({
       expiresIn: null, // don`t really supposed to be null - just fot checking
       // given_name: userData.data.given_name,

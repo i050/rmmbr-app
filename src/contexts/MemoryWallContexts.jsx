@@ -9,17 +9,14 @@ export function useMemoryWallContext() {
 
 export default function MemoryWallProvider({ children }) {
   const [memoryWalls, setMemoryWalls] = useState(null);
-  console.log(memoryWalls);
   useEffect(() => {
     fetchDataFromDatabase("http://localhost:3000/api/memoryWall")
       .then((data) => {
-        console.log(data);
         setMemoryWalls(data);
       })
       .catch((error) => {
         console.error(error);
       });
-    console.log(memoryWalls);
   }, []); // The empty dependency array ensures that this effect runs only once on component mount
   if (memoryWalls === null) {
     return <div>Loading...</div>;

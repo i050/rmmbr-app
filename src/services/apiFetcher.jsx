@@ -34,6 +34,8 @@ export async function fetchDataFromDatabase(endpoint) {
   export async function deleteDataFromDatabase(endpoint) {
     try {
       const response = await axios.delete(endpoint);
+      console.log(response);
+
       return response.data; // Assuming the response contains data in JSON format
     } catch (error) {
       throw new Error(`Error deleting data at ${endpoint}: ${error.message}`);

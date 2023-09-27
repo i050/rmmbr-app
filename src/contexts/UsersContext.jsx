@@ -9,17 +9,14 @@ export function useUsersContext() {
 
 export default function UsersProvider({ children }) {
   const [users, setUsers] = useState(null);
-  console.log(users);
   useEffect(() => {
     fetchDataFromDatabase("http://localhost:3000/api/users")
       .then((data) => {
-        console.log(data);
         setUsers(data);
       })
       .catch((error) => {
         console.error(error);
       });
-    console.log(users);
   }, []); // The empty dependency array ensures that this effect runs only once on component mount
   if (users === null) {
     return <div>Loading...</div>;

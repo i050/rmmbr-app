@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef,useEffect} from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,12 +7,11 @@ import { updateDataInDatabase } from "../../services/apiFetcher";
 import { useMemoryWallContext } from "../../contexts/MemoryWallContexts";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("שדה כותרת הוא שדה חובה"),
+  aboutText: Yup.string(),
 });
 
-function UpdateHeaderForm({ closeTitleInput, memoryWallId, index }) {
+function UpdateAboutForm({ closeAboutInput, memoryWallId, index }) {
   const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
-
   const {
     handleSubmit,
     control,
@@ -21,18 +20,30 @@ function UpdateHeaderForm({ closeTitleInput, memoryWallId, index }) {
     resolver: yupResolver(validationSchema),
   });
 
+  const textAreaRef = useRef(null);
+
+  useEffect(() => {
+    // When the component mounts, focus on the text area.
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+      textAreaRef.current.select();
+    }
+  }, []);
+
   const onSubmit = (data) => {
-    const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/title`; // Replace with your actual endpoint
+    const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWallId}/about`; // Replace with your actual endpoint
     const dataToUpdate = {
-      title: data.title,
+      aboutText: data.aboutText,
     };
+    console.log(data.aboutText);
+    console.log(dataToUpdate);
     (async () => {
       try {
-        await updateDataInDatabase(endpoint, dataToUpdate);
-
-        memoryWalls[index].title = data.title;
+        const aboutData = await updateDataInDatabase(endpoint, dataToUpdate);
+        console.log(aboutData);
+        closeAboutInput();
+        memoryWalls[index].about = data.aboutText;
         setMemoryWalls(memoryWalls);
-        closeTitleInput();
       } catch (error) {
         console.error(error.message);
       }
@@ -40,38 +51,37 @@ function UpdateHeaderForm({ closeTitleInput, memoryWallId, index }) {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ border: "none" }}>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group controlId="title">
+        <Form.Group controlId="aboutText" style={{ border: "none" }}>
           <Form.Label>
             <h3>:עריכת כותרת</h3>
           </Form.Label>
           <Controller
-            name="title"
+            name="aboutText"
             control={control}
-            defaultValue={memoryWalls[index].title}
+            defaultValue={memoryWalls[index].about}
             render={({ field }) => (
               <Form.Control
-                type="text"
-                className={errors.title ? "is-invalid" : ""}
+                as="textarea"
+                rows={3}
+                className={errors.aboutText ? "is-invalid" : ""}
                 {...field}
-                autoFocus
-                onFocus={(e) => {
-                  e.target.select();
-                }}
+                ref={textAreaRef} // Set the ref here
               />
             )}
           />
-          {errors.title && (
+          {errors.aboutText && (
             <Form.Control.Feedback type="invalid">
-              {errors.title.message}
+              {errors.aboutText.message}
             </Form.Control.Feedback>
           )}
         </Form.Group>
         <Button
           type="submit"
+          variant="primary"
           className="mt-2"
-          style={{ backgroundColor: "#022855", color: "white" }}
+          style={{ backgroundColor: " #022855" }}
         >
           שמירה
         </Button>
@@ -80,4 +90,4 @@ function UpdateHeaderForm({ closeTitleInput, memoryWallId, index }) {
   );
 }
 
-export default UpdateHeaderForm;
+export default UpdateAboutForm;
