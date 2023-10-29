@@ -8,7 +8,10 @@ const Home = () => {
   const maxWords = 23; // מספר המילים המרבי שברצונך להציג
   return (
     <>
+          
+
       {memoryWalls.map((memoryWall,index) => (
+        
         <Link
           to={`/memory-wall`}
           state={{ index: index }}

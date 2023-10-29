@@ -19,6 +19,25 @@ export async function fetchDataFromDatabase(endpoint) {
       throw new Error(`Error posting data to ${endpoint}: ${error.message}`);
     }
   }
+
+ // post-with-file
+export async function postDataWithFileToDatabase(endpoint, dataToSend, file) {
+  try {
+    const formData = new FormData();
+    formData.append("name", dataToSend.name);
+    formData.append("donationAmount", dataToSend.donationAmount);
+    formData.append("imgPath", file);
+    const headers = {
+      "Content-Type": "multipart/form-data", // Use 'multipart/form-data' when sending files
+    };
+
+    const response = await axios.post(endpoint, formData, { headers });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error posting data to ${endpoint}: ${error.message}`);
+  }
+}
+  
   
   //put
   export async function updateDataInDatabase(endpoint, dataToUpdate) {

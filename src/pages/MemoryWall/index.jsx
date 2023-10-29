@@ -16,11 +16,14 @@ import ThreeDotsAdminDropdown from "../../components/ThreeDotsAdminDropdown";
 import UpdateHeaderForm from "../../components/UpdateHederForm";
 import UpdateAboutForm from "../../components/UpdateAboutForm";
 import { deleteDataFromDatabase } from "../../services/apiFetcher";
+import ListEditUpdateSlider from "../../components/ListEditUpdateSlider";
+// import { deleteDataFromDatabase } from "../../services/apiFetcher";
 
 const MemoryWall = () => {
+  const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
   const isAuthenticated = useIsAuthenticated();
   const authUser = useAuthUser();
-  const { memoryWalls, setMemoryWalls } = useMemoryWallContext();
+  const [refresh, setRefresh] = useState(false);
 
   const location = useLocation();
 
@@ -33,6 +36,8 @@ const MemoryWall = () => {
     memoryWall.highlightsNews
   );
 
+  const [deceasedsInfo, setDeceasedsInfo] = useState(memoryWall.deceasedsInfo);
+
   const [isOpenTitleInput, setIsOpenTitleInput] = useState(false);
   const [isOpenAboutInput, setIsOpenAboutInput] = useState(false);
 
@@ -43,9 +48,20 @@ const MemoryWall = () => {
     memoryWalls[index].highlightsNews = updateHighlight;
     setMemoryWalls(memoryWalls); //because there is no backend
   };
-  const [refresh, setRefresh] = useState(false);
+
+  const addNewDeceasedToMemoryWall = (newDeceased) => {
+    console.log(newDeceased.newDeceased);
+    const updateDeceased = [...deceasedsInfo, newDeceased.newDeceased];
+    setDeceasedsInfo(updateDeceased);
+
+    memoryWalls[index].deceasedsInfo = updateDeceased
+    setMemoryWalls(memoryWalls); //because there is no backend
+    console.log(memoryWalls);  
+
+  };
 
   useEffect(() => {
+    
     if (isAuthenticated()) {
       setRole(authUser().role);
       setWallPermissions(authUser().permissions.memoryWalls);
@@ -70,22 +86,16 @@ const MemoryWall = () => {
     setIsOpenAboutInput(false);
   };
 
-  const deleteAboutText = async(resource) => {
+  const deleteAboutText = async () => {
     const endpoint = `http://localhost:3000/api/getMemoryWallById/${memoryWall.id}/about`;
-
-   
-      console.log(endpoint);
-
-      try {
-        await deleteDataFromDatabase(endpoint);
-
-       memoryWalls[index].about ="";
-       setMemoryWalls(memoryWalls);
-       setRefresh((prevRefresh) => !prevRefresh);
-      } catch (error) {
-        console.log(error);
-      }
-    
+    try {
+      await deleteDataFromDatabase(endpoint);
+      memoryWalls[index].about = "";
+      setMemoryWalls(memoryWalls);
+      setRefresh((prevRefresh) => !prevRefresh);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -130,7 +140,6 @@ const MemoryWall = () => {
             </div>
 
             <VisualUpdatesSlider sliderUpdates={memoryWall.sliderUpdates} />
-
             {isOpenAboutInput ? (
               <UpdateAboutForm
                 closeAboutInput={closeAboutInput}
@@ -152,16 +161,19 @@ const MemoryWall = () => {
                             deleteAboutText();
                           }}
                         >
-                          <img src="src\assets\images\bin 1.png" alt="delete" />
+                          <img
+                            src="src\assets\images\bin 1.png"
+                            alt="bin-img"
+                          />
                         </button>
                       </Col>
                       <Col xs={11} md={11} lg={11} xl={11}>
-                        <About about={memoryWalls[index].about} />
+                        <About about={memoryWall.about} />
                       </Col>
                     </Row>
                   </div>
                 ) : (
-                  <About about={memoryWalls[index].about} />
+                  <About about={memoryWall.about} />
                 )}
               </div>
             )}
@@ -172,6 +184,8 @@ const MemoryWall = () => {
               role={role}
               wallPermissions={wallPermissions}
               memoryWallId={memoryWall.id}
+              index={index}
+              addNewDeceasedToMemoryWall={addNewDeceasedToMemoryWall}
             />
           </Col>
           <Col xs={12} md={4} lg={4} xl={3}>

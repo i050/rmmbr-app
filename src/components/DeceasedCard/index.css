@@ -24,3 +24,18 @@
   left: 40px;
   cursor: pointer;
 }
+
+.link-no-underline {
+  text-decoration: none;
+}
+
+.deceased-card-style {
+  /* Keep inline-block and vertical-align properties */
+  display: inline-block;
+  vertical-align: top;
+  height: 15rem;
+  width: 11rem;
+  margin: 1rem;
+  /* Other styles */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

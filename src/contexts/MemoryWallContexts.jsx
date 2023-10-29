@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { fetchDataFromDatabase } from "../services/apiFetcher.jsx";
 
-const memoryWallContext = createContext();
+const memoryWallContext = createContext(null);
 
 export function useMemoryWallContext() {
   return useContext(memoryWallContext);
@@ -12,7 +12,7 @@ export default function MemoryWallProvider({ children }) {
   useEffect(() => {
     fetchDataFromDatabase("http://localhost:3000/api/memoryWall")
       .then((data) => {
-        setMemoryWalls(data);
+        setMemoryWalls(data)
       })
       .catch((error) => {
         console.error(error);
